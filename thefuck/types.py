@@ -236,14 +236,13 @@ class CorrectedCommand(object):
         of running fuck in case fixed command fails again.
 
         """
-        if settings.repeat:
-            repeat_fuck = '{} --repeat {}--force-command {}'.format(
-                get_alias(),
-                '--debug ' if settings.debug else '',
-                shell.quote(self.script))
-            return shell.or_(self.script, repeat_fuck)
-        else:
+        if not settings.repeat:
             return self.script
+        repeat_fuck = '{} --repeat {}--force-command {}'.format(
+            get_alias(),
+            '--debug ' if settings.debug else '',
+            shell.quote(self.script))
+        return shell.or_(self.script, repeat_fuck)
 
     def run(self, old_cmd):
         """Runs command from rule for passed command.

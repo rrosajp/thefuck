@@ -100,15 +100,17 @@ class TestRule(object):
         assert capsys.readouterr()[1].split('\n')[0] == '[WARN] Rule test:'
 
     def test_get_corrected_commands_with_rule_returns_list(self):
-        rule = Rule(get_new_command=lambda x: [x.script + '!', x.script + '@'],
-                    priority=100)
+        rule = Rule(
+            get_new_command=lambda x: [x.script + '!', f'{x.script}@'],
+            priority=100,
+        )
+
         assert (list(rule.get_corrected_commands(Command('test', '')))
                 == [CorrectedCommand(script='test!', priority=100),
                     CorrectedCommand(script='test@', priority=200)])
 
     def test_get_corrected_commands_with_rule_returns_command(self):
-        rule = Rule(get_new_command=lambda x: x.script + '!',
-                    priority=100)
+        rule = Rule(get_new_command=lambda x: f'{x.script}!', priority=100)
         assert (list(rule.get_corrected_commands(Command('test', '')))
                 == [CorrectedCommand(script='test!', priority=100)])
 

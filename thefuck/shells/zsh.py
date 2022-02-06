@@ -78,10 +78,7 @@ class Zsh(Generic):
         return u': {}:0;{}\n'.format(int(time()), command_script)
 
     def _script_from_history(self, line):
-        if ';' in line:
-            return line.split(';', 1)[1]
-        else:
-            return ''
+        return line.split(';', 1)[1] if ';' in line else ''
 
     def how_to_configure(self):
         return self._create_shell_configuration(

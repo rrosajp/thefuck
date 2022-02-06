@@ -89,10 +89,7 @@ class Fish(Generic):
         return u'- cmd: {}\n   when: {}\n'.format(command_script, int(time()))
 
     def _script_from_history(self, line):
-        if '- cmd: ' in line:
-            return line.split('- cmd: ', 1)[1]
-        else:
-            return ''
+        return line.split('- cmd: ', 1)[1] if '- cmd: ' in line else ''
 
     def and_(self, *commands):
         return u'; and '.join(commands)

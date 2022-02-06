@@ -51,8 +51,7 @@ def _get_directory_names_only(path):
 
 
 def _brew_commands():
-    brew_path_prefix = get_brew_path_prefix()
-    if brew_path_prefix:
+    if brew_path_prefix := get_brew_path_prefix():
         try:
             return (_get_brew_commands(brew_path_prefix)
                     + _get_brew_tap_specific_commands(brew_path_prefix))
@@ -66,10 +65,9 @@ def _brew_commands():
 
 
 def match(command):
-    is_proper_command = ('brew' in command.script and
-                         'Unknown command' in command.output)
-
-    if is_proper_command:
+    if is_proper_command := (
+        'brew' in command.script and 'Unknown command' in command.output
+    ):
         broken_cmd = re.findall(r'Error: Unknown command: ([a-z]+)',
                                 command.output)[0]
         return bool(get_closest(broken_cmd, _brew_commands()))

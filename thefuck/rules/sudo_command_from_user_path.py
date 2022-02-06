@@ -3,8 +3,7 @@ from thefuck.utils import for_app, which, replace_argument
 
 
 def _get_command_name(command):
-    found = re.findall(r'sudo: (.*): command not found', command.output)
-    if found:
+    if found := re.findall(r'sudo: (.*): command not found', command.output):
         return found[0]
 
 
