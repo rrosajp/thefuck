@@ -9,8 +9,9 @@ def _get_executable(script_part):
 
 
 def match(command):
-    return (not command.script_parts[0] in get_all_executables()
-            and _get_executable(command.script_parts[0]))
+    return command.script_parts[
+        0
+    ] not in get_all_executables() and _get_executable(command.script_parts[0])
 
 
 def get_new_command(command):

@@ -26,7 +26,7 @@ def get_key():
 
 
 def open_command(arg):
-    return 'cmd /c start ' + arg
+    return f'cmd /c start {arg}'
 
 
 try:

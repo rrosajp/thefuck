@@ -11,10 +11,7 @@ from . import const
 
 def color(color_):
     """Utility for ability to disabling colored output."""
-    if settings.no_colors:
-        return ''
-    else:
-        return color_
+    return '' if settings.no_colors else color_
 
 
 def warn(title):

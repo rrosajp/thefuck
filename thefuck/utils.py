@@ -28,16 +28,14 @@ def memoize(fn):
 
     @wraps(fn)
     def wrapper(*args, **kwargs):
-        if not memoize.disabled:
-            key = pickle.dumps((args, kwargs))
-            if key not in memo:
-                memo[key] = fn(*args, **kwargs)
-            value = memo[key]
-        else:
+        if memoize.disabled:
             # Memoize is disabled, call the function
-            value = fn(*args, **kwargs)
+            return fn(*args, **kwargs)
 
-        return value
+        key = pickle.dumps((args, kwargs))
+        if key not in memo:
+            memo[key] = fn(*args, **kwargs)
+        return memo[key]
 
     return wrapper
 
@@ -188,10 +186,7 @@ def is_app(command, *app_names, **kwargs):
 def for_app(*app_names, **kwargs):
     """Specifies that matching script is for one of app names."""
     def _for_app(fn, command):
-        if is_app(command, *app_names, **kwargs):
-            return fn(command)
-        else:
-            return False
+        return fn(command) if is_app(command, *app_names, **kwargs) else False
 
     return decorator(_for_app)
 
@@ -259,10 +254,9 @@ class Cache(object):
 
         if self._db.get(key, {}).get('etag') == etag:
             return self._db[key]['value']
-        else:
-            value = fn(*args, **kwargs)
-            self._db[key] = {'etag': etag, 'value': value}
-            return value
+        value = fn(*args, **kwargs)
+        self._db[key] = {'etag': etag, 'value': value}
+        return value
 
 
 _cache = Cache()

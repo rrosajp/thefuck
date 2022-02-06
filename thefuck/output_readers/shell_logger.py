@@ -53,8 +53,7 @@ def get_output(script):
         for command in commands:
             if command['command'] == script:
                 lines = _get_output_lines(command['output'])
-                output = '\n'.join(lines).strip()
-                return output
+                return '\n'.join(lines).strip()
             else:
                 logs.warn("Output isn't available in shell logger")
                 return None

@@ -10,7 +10,7 @@ def _get_formulas():
     # Formulas are based on each local system's status
     try:
         brew_path_prefix = get_brew_path_prefix()
-        brew_formula_path = brew_path_prefix + '/Library/Formula'
+        brew_formula_path = f'{brew_path_prefix}/Library/Formula'
 
         for file_name in os.listdir(brew_formula_path):
             if file_name.endswith('.rb'):
@@ -24,10 +24,10 @@ def _get_similar_formula(formula_name):
 
 
 def match(command):
-    is_proper_command = ('brew install' in command.script and
-                         'No available formula' in command.output)
-
-    if is_proper_command:
+    if is_proper_command := (
+        'brew install' in command.script
+        and 'No available formula' in command.output
+    ):
         formula = re.findall(r'Error: No available formula for ([a-z]+)',
                              command.output)[0]
         return bool(_get_similar_formula(formula))
